@@ -5,7 +5,7 @@ from .agent_based_api.v1 import *
 
 def parse_stp(string_table):
     section = []
-    for i in range(len(string_table[1])-2):
+    for i in range(len(string_table[0])):
         for x in range(len(string_table[2])):
             if string_table[1][i][1] == string_table[2][x][0]:
                 string_table[0][i][0] = string_table[2][x][1]
