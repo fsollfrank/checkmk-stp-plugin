@@ -9,9 +9,8 @@ def parse_stp(string_table):
         for x in range(len(string_table[2])):
             if string_table[1][i][1] == string_table[2][x][0]:
                 string_table[0][i][0] = string_table[2][x][1]
-    for line in string_table[0]:
-        for item in line:
-            section.append(item)
+    for item in string_table[0]:
+         section.append(item)
     return section
 
 register.snmp_section(
@@ -29,14 +28,14 @@ register.snmp_section(
                 "5", # STP Designated Root
             ]),
         SNMPTree(
-            base=".1.3.6.1.2.1.17.1.4.1"
-            oid=[
+            base=".1.3.6.1.2.1.17.1.4.1",
+            oids=[
                 "1", # Bridge Port number
                 "2", # Interface Index
             ]),
         SNMPTree(
-            base=".1.3.6.1.2.1.2.2.1"
-            oid=[
+            base=".1.3.6.1.2.1.2.2.1",
+            oids=[
                 "1", # Interface Index
                 "2", # Interface Name
             ]
