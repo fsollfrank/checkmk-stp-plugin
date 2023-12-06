@@ -48,10 +48,18 @@ def discover_stp(section):
 def check_stp(item,section):
     for line in section:
         if line[0] == item:
-            if line[2] != "2":
-                yield Result(state=State.OK, summary="Port is not in blocking state")
+            if line[2] == "1":
+                yield Result(state=State.WARN, summary="Port is in disabled state")
             if line[2] == "2":
                 yield Result(state=State.CRIT, summary="Port is in blocking state")
+            if line[2] == "3":
+                yield Result(state=State.OK, summary="Port is in listening state")
+            if line[2] == "4":
+                yield Result(state=State.OK, summary="Port is in learning state")
+            if line[2] == "5":
+                yield Result(state=State.OK, summary="Port is in forwarding state")
+            if line[2] == "6":
+                yield Result(state=State.CRIT, summary="Port is in broken state")
     return
 
 register.check_plugin(
