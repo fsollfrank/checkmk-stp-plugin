@@ -18,7 +18,7 @@ register.snmp_section(
     detect=exists(".1.3.6.1.2.1.17.2.15.1.1.1"),
     parse_function=parse_stp,
     fetch=[
-        SNMPTree(
+        SNMPTree( #string_table[0] -> main snmp variables
             base=".1.3.6.1.2.1.17.2.15.1",
             oids=[
                 "1", # STP Port number
@@ -27,13 +27,13 @@ register.snmp_section(
                 "4", # STP Port Enable
                 "5", # STP Designated Root
             ]),
-        SNMPTree(
+        SNMPTree( #string_table[1] -> Bridge Port to Interface ID
             base=".1.3.6.1.2.1.17.1.4.1",
             oids=[
                 "1", # Bridge Port number
                 "2", # Interface Index
             ]),
-        SNMPTree(
+        SNMPTree( #string_table[2] -> Interface ID to Interface Name
             base=".1.3.6.1.2.1.2.2.1",
             oids=[
                 "1", # Interface Index
@@ -52,16 +52,18 @@ def check_stp(item,section):
         if line[0] == item:
             if line[2] == "1":
                 yield Result(state=State.WARN, summary="Port is in disabled state")
-            if line[2] == "2":
+            elif line[2] == "2":
                 yield Result(state=State.CRIT, summary="Port is in blocking state")
-            if line[2] == "3":
+            elif line[2] == "3":
                 yield Result(state=State.OK, summary="Port is in listening state")
-            if line[2] == "4":
+            elif line[2] == "4":
                 yield Result(state=State.OK, summary="Port is in learning state")
-            if line[2] == "5":
+            elif line[2] == "5":
                 yield Result(state=State.OK, summary="Port is in forwarding state")
-            if line[2] == "6":
+            elif line[2] == "6":
                 yield Result(state=State.CRIT, summary="Port is in broken state")
+            else:
+                yield Result(state=State.UNKNOWN, summary="Port is in unknown state")
     return
 
 register.check_plugin(
