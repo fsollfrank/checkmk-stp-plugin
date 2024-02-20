@@ -16,7 +16,7 @@ def parse_stp(string_table):
 
 register.snmp_section(
     name="stp",
-    detect=exists(".1.3.6.1.2.1.17.2.15.1.1.1"),
+    detect=exists(".1.3.6.1.2.1.17.2.15.1.1"),
     parse_function=parse_stp,
     fetch=[
         SNMPTree( #string_table[0] -> main snmp variables
